@@ -1,0 +1,73 @@
+from flask import Flask, render_template, url_for, redirect, session, request
+from google_auth_oauthlib.flow import Flow
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
+import os
+from dotenv import load_dotenv
+import pathlib
+import requests
+
+load_dotenv()
+
+app = Flask(__name__)
+app.secret_key = os.getenv("SECRET_KEY", "your-secret-key")
+
+# Google OAuth2 configuration
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
+
+flow = Flow.from_client_secrets_file(
+    client_secrets_file=client_secrets_file,
+    scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
+    redirect_uri="http://127.0.0.1:5000/callback"
+)
+
+def login_is_required(function):
+    def wrapper(*args, **kwargs):
+        if "google_id" not in session:
+            return redirect(url_for("login"))
+        else:
+            return function()
+    return wrapper
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/login")
+def login():
+    authorization_url, state = flow.authorization_url()
+    session["state"] = state
+    return redirect(authorization_url)
+
+@app.route("/callback")
+def callback():
+    flow.fetch_token(authorization_response=request.url)
+
+    credentials = flow.credentials
+    request_session = requests.session()
+    token_request = google_requests.Request(session=request_session)
+
+    id_info = id_token.verify_oauth2_token(
+        id_token=credentials._id_token,
+        request=token_request,
+        audience=GOOGLE_CLIENT_ID
+    )
+
+    session["google_id"] = id_info.get("sub")
+    session["name"] = id_info.get("name")
+    session["email"] = id_info.get("email")
+    return redirect("/protected_area")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
+@app.route("/protected_area")
+@login_is_required
+def protected_area():
+    return render_template("protected.html", user_name=session["name"], user_email=session["email"])
+
+if __name__ == "__main__":
+    app.run(debug=True)
