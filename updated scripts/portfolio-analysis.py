@@ -91,6 +91,8 @@ def calculate_xirr(df, latest_nav):
     schemes = df['scheme_name'].unique()
     xirr_results = {}
 
+    portfolio_growth = []  # To store portfolio value for each date
+
     for scheme in schemes:
         transactions = df[df['scheme_name'] == scheme].copy()
         # Add the current value as a final cash flow
@@ -103,21 +105,31 @@ def calculate_xirr(df, latest_nav):
             rate = xirr(transactions)
             xirr_results[scheme] = round(rate * 100, 1) if rate is not None else 0
 
-    # Calculate portfolio-level XIRR
+    # Calculate portfolio growth and overall XIRR
+    unique_dates = df['date'].sort_values().unique()
+
+    for date in unique_dates:
+        transactions_up_to_date = df[df['date'] <= date].copy()
+        transactions_up_to_date = transactions_up_to_date.merge(latest_nav, on='code', how='left')
+        transactions_up_to_date['current_value'] = transactions_up_to_date['units'] * transactions_up_to_date['nav_value']
+        total_value_on_date = transactions_up_to_date['current_value'].sum()
+        portfolio_growth.append({'date': date, 'value': total_value_on_date})
+
+    # Calculate overall portfolio XIRR
     total_transactions = df.copy()
     if not total_transactions.empty:
         total_transactions = total_transactions.merge(latest_nav, on='code', how='left')
         total_transactions['current_value'] = total_transactions['units'] * total_transactions['nav_value']
-        total_cashflow = total_transactions[['date', 'cashflow']]
         portfolio_final_value = pd.DataFrame({
             'date': [datetime.now()],
             'cashflow': [total_transactions['current_value'].sum()]
         })
+        total_cashflow = total_transactions[['date', 'cashflow']]
         total_transactions = pd.concat([total_cashflow, portfolio_final_value])
-        total_rate = xirr(total_transactions)
-        xirr_results['Portfolio'] = round(total_rate * 100, 1) if total_rate is not None else 0
+        portfolio_xirr = xirr(total_transactions)
+        xirr_results['Portfolio'] = round(portfolio_xirr * 100, 1) if portfolio_xirr is not None else 0
 
-    return xirr_results
+    return xirr_results, pd.DataFrame(portfolio_growth)
 
 def main():
     st.set_page_config(page_title="Portfolio Analysis", layout="wide")
@@ -133,8 +145,8 @@ def main():
     df['date'] = pd.to_datetime(df['date'])
     df = prepare_cashflows(df)
 
-    # Calculate XIRR
-    xirr_results = calculate_xirr(df, latest_nav)
+    # Calculate XIRR and Portfolio Growth
+    xirr_results, portfolio_growth_df = calculate_xirr(df, latest_nav)
 
     # Calculate portfolio weights
     weights_df = calculate_portfolio_weights(df, latest_nav)
@@ -155,9 +167,9 @@ def main():
     fund_metrics['XIRR (%)'] = fund_metrics['scheme_name'].map(xirr_results)
     st.dataframe(fund_metrics)
 
-    # Display Portfolio Composition
-    st.subheader("Portfolio Composition")
-    st.bar_chart(fund_metrics.set_index('scheme_name')['weight'])
+    # Display Portfolio Growth Over Time
+    st.subheader("Portfolio Growth Over Time")
+    st.line_chart(portfolio_growth_df.rename(columns={'value': 'Portfolio Value'}).set_index('date'))
 
 if __name__ == "__main__":
     main()
