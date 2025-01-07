@@ -186,7 +186,7 @@ def initial_data_load():
             if st.button("Initial Data Load"):
                 if insert_portfolio_data(df):
                     st.success(f"Successfully inserted {len(df)} records!")
-                    st.experimental_rerun()
+                    st.rerun()
 
 def add_new_transactions():
     st.subheader("Add New Transactions")
@@ -211,7 +211,7 @@ def add_new_transactions():
             if st.button("Insert New Transactions"):
                 if insert_portfolio_data(df):
                     st.success(f"Successfully inserted {len(df)} new records!")
-                    st.experimental_rerun()
+                    st.rerun()
 
 def manual_entry():
     st.subheader("Manual Transaction Entry")
@@ -252,7 +252,7 @@ def manual_entry():
             
             if insert_portfolio_data(df):
                 st.success("Transaction inserted successfully!")
-                st.experimental_rerun()
+                st.rerun()
 
 def export_data():
     st.subheader("Export Transactions")
