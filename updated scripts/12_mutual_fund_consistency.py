@@ -41,6 +41,7 @@ def get_schemes_by_category(category):
             """, (category,))
             return {row[0]: row[1] for row in cur.fetchall()}
 
+
 def get_nav_data(scheme_code):
     """Fetch NAV data for selected scheme"""
     with connect_to_db() as conn:
@@ -150,8 +151,9 @@ def main():
                 if all_risk_metrics:
                     combined_metrics = pd.concat(all_risk_metrics, ignore_index=True)
 
-                    # Convert 'Consistency Score' to numeric
-                    combined_metrics['Consistency Score'] = pd.to_numeric(combined_metrics['Consistency Score'], errors='coerce')
+                    # Convert necessary columns to numeric
+                    combined_metrics['Upside Ratio'] = pd.to_numeric(combined_metrics['Upside Ratio'], errors='coerce')
+                    combined_metrics['Downside Ratio'] = pd.to_numeric(combined_metrics['Downside Ratio'], errors='coerce')
 
                     # Display combined metrics
                     st.dataframe(combined_metrics)
@@ -167,10 +169,14 @@ def main():
                         """
                     )
 
-                    # Find top and bottom consistent funds
-                    avg_consistency_scores = combined_metrics.groupby('Fund')['Consistency Score'].mean().sort_values()
-                    top_5_funds = avg_consistency_scores.tail(5).index
-                    bottom_5_funds = avg_consistency_scores.head(5).index
+                    # Find top and bottom consistent funds based on Upside and Downside Ratios
+                    avg_ratios = combined_metrics.groupby('Fund').agg({
+                        'Upside Ratio': 'mean',
+                        'Downside Ratio': 'mean'
+                    })
+                    avg_ratios['Score'] = avg_ratios['Upside Ratio'] - avg_ratios['Downside Ratio']
+                    top_5_funds = avg_ratios.sort_values(by='Score', ascending=False).head(5).index
+                    bottom_5_funds = avg_ratios.sort_values(by='Score', ascending=False).tail(5).index
 
                     st.subheader('Top 5 Most Consistent Funds')
                     st.write(combined_metrics[combined_metrics['Fund'].isin(top_5_funds)])
