@@ -2,6 +2,24 @@ import psycopg
 import pandas as pd
 
 def upload_csv_to_postgresql(file_path, db_config):
+    """
+    Uploads data from a CSV file to a PostgreSQL database table.
+    This function connects to a PostgreSQL database using the provided configuration,
+    checks if the 'mutual_fund_master_data' table exists, creates it if it doesn't,
+    and then uploads data from the specified CSV file into the table. The function
+    ensures that date columns are properly parsed and handles missing or invalid
+    dates by setting them to '9999-12-31'.
+    Args:
+        file_path (str): The path to the CSV file containing the data to be uploaded.
+        db_config (dict): A dictionary containing the database configuration with keys:
+            - 'dbname': The name of the database.
+            - 'user': The username used to authenticate.
+            - 'password': The password used to authenticate.
+            - 'host': The host address of the database.
+            - 'port': The port number on which the database is listening.
+    Raises:
+        Exception: If any error occurs during the process, it will be caught and printed.
+    """
     try:
         # Connect to the PostgreSQL database
         with psycopg.connect(

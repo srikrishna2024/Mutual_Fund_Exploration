@@ -85,6 +85,25 @@ def update_nav_data(cursor, schemes):
     write_log(f"Total NAV records updated: {total_updated}")
 
 def nav_recent_updater(db_config):
+    """
+    Updates the Net Asset Value (NAV) data for mutual fund schemes in a PostgreSQL database.
+    Parameters:
+    db_config (dict): A dictionary containing the database configuration with keys:
+        - 'dbname': Name of the database
+        - 'user': Username for the database
+        - 'password': Password for the database
+        - 'host': Host address of the database
+        - 'port': Port number of the database
+    The function provides two options to the user:
+    1. Update all schemes
+    2. Update a specific scheme by entering its scheme code
+    The function fetches the schemes to update based on the user's choice and updates their NAV data.
+    It commits the changes to the database and logs the process.
+    If an error occurs during the process, it prints the error message and logs it.
+    Note:
+    - The function assumes the existence of helper functions `fetch_schemes_to_update`, `update_nav_data`, and `write_log`.
+    - The function uses the `psycopg` library to connect to the PostgreSQL database.
+    """
     try:
         # Connect to the PostgreSQL database
         with psycopg.connect(

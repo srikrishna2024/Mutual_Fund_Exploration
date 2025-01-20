@@ -7501,3 +7501,4 @@
 [2025-01-20 15:04:52] Updated 5 records for scheme: Mirae Asset Nifty India New Age Consumption ETF
 [2025-01-20 15:04:52] Total NAV records updated: 36696
 [2025-01-20 15:04:52] NAV update completed.
+[2025-01-20 18:07:30] An error occurred: 

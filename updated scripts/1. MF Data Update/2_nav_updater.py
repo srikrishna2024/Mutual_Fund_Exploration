@@ -120,6 +120,28 @@ def write_last_downloaded_scheme(scheme_code):
         file.write(scheme_code)
 
 def nav_updater(db_config):
+    """
+    Updates the Net Asset Value (NAV) data for mutual fund schemes in a PostgreSQL database.
+    Args:
+        db_config (dict): A dictionary containing the database configuration with keys:
+            - 'dbname': The name of the database.
+            - 'user': The username used to authenticate.
+            - 'password': The password used to authenticate.
+            - 'host': The host address of the database.
+            - 'port': The port number on which the database is listening.
+    The function performs the following steps:
+        1. Connects to the PostgreSQL database using the provided configuration.
+        2. Ensures that the NAV table exists in the database.
+        3. Fetches all eligible open-ended mutual fund schemes.
+        4. Prompts the user to choose an update option:
+            - Update all schemes.
+            - Update 5000 schemes starting from the last downloaded scheme.
+            - Update a specific scheme based on the scheme code.
+        5. Updates the NAV data based on the user's choice.
+        6. Commits the transaction to the database.
+    Raises:
+        Exception: If any error occurs during the database connection or data update process, it prints the error message.
+    """
     try:
         # Connect to the PostgreSQL database
         with psycopg.connect(

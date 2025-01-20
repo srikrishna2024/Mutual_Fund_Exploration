@@ -117,6 +117,21 @@ def get_portfolio_data():
         return pd.read_sql(query, conn)
 
 def main():
+    """
+    Main function to handle the Portfolio Transaction Upload page.
+    This function sets up the Streamlit page configuration, handles file uploads,
+    validates and processes the uploaded data, and displays the current portfolio data.
+    Steps:
+    1. Set up the Streamlit page configuration and title.
+    2. Create the portfolio table if it doesn't exist.
+    3. Provide a file uploader for CSV or Excel files.
+    4. Read and process the uploaded file.
+    5. Validate the data and show a preview.
+    6. Insert the validated data into the database upon user confirmation.
+    7. Display the current portfolio data from the database.
+    Raises:
+        Exception: If there is an error processing the uploaded file or inserting data into the database.
+    """
     st.set_page_config(page_title='Portfolio Transaction Upload', layout='wide')
     st.title('Portfolio Transaction Upload')
     
