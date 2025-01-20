@@ -1,0 +1,37 @@
+[2025-01-20 10:19:18] Updated 5 records for scheme: Aditya Birla Sun Life Equity Advantage Fund - Regular Growth
+[2025-01-20 10:19:24] Updated 5 records for scheme: Aditya Birla Sun Life Equity Advantage Fund -Regular - IDCW
+[2025-01-20 10:19:39] Updated 5 records for scheme: Aditya Birla Sun Life Income Fund - Regular - Quarterly IDCW
+[2025-01-20 10:19:44] Updated 5 records for scheme: Aditya Birla Sun Life Income Fund - Growth - Regular Plan
+[2025-01-20 10:19:52] Updated 6 records for scheme: Aditya Birla Sun Life Liquid Fund -Institutional - IDCW
+[2025-01-20 10:19:58] Updated 6 records for scheme: Aditya Birla Sun Life Liquid Fund-Retail (Growth)
+[2025-01-20 10:20:08] Updated 6 records for scheme: Aditya Birla Sun Life Liquid Fund-Institutional (Growth)
+[2025-01-20 10:20:12] Updated 6 records for scheme: Aditya Birla Sun Life Liquid Fund -Retail - IDCW
+[2025-01-20 10:20:15] Updated 6 records for scheme: Aditya Birla Sun Life Liquid Fund -Daily IDCW
+[2025-01-20 10:20:19] Updated 6 records for scheme: Aditya Birla Sun Life Liquid Fund - Growth
+[2025-01-20 10:20:28] Updated 6 records for scheme: Aditya Birla Sun Life Liquid Fund -Institutional - weekly  IDCW
+[2025-01-20 10:21:00] No NAV data found for scheme 100051.
+[2025-01-20 10:21:32] No NAV data found for scheme 100057.
+[2025-01-20 10:21:38] Updated 5 records for scheme: Aditya Birla Sun Life Government Securities Fund  - Growth - Regular Plan
+[2025-01-20 10:21:48] Updated 5 records for scheme: Aditya Birla Sun Life MNC Fund - Regular - IDCW
+[2025-01-20 10:21:51] Updated 5 records for scheme: Aditya Birla Sun Life MNC Fund - Growth - Regular Plan
+[2025-01-20 10:21:56] Updated 5 records for scheme: DSP Bond Fund - IDCW
+[2025-01-20 10:22:06] Updated 5 records for scheme: DSP Bond Fund - Growth
+[2025-01-20 10:22:11] Updated 5 records for scheme: DSP Bond Fund - IDCW - Monthly
+[2025-01-20 10:22:15] Updated 5 records for scheme: DSP Flexi Cap Fund - Regular Plan - IDCW
+[2025-01-20 10:22:25] Updated 5 records for scheme: DSP Aggressive Hybrid Fund- Regular Plan - Growth
+[2025-01-20 10:22:31] Updated 5 records for scheme: DSP Aggressive Hybrid Fund- Regular Plan - IDCW
+[2025-01-20 10:22:36] Updated 5 records for scheme: DSP Gilt Fund - Regular Plan - Growth
+[2025-01-20 10:22:45] Updated 5 records for scheme: DSP Gilt Fund - Regular Plan - IDCW
+[2025-01-20 10:22:50] Updated 5 records for scheme: DSP Gilt Fund - Regular Plan - IDCW - Monthly
+[2025-01-20 10:22:54] Updated 5 records for scheme: DSP Savings Fund - Regular Plan - Growth
+[2025-01-20 10:23:03] Updated 5 records for scheme: DSP Savings Fund - Regular Plan - IDCW
+[2025-01-20 10:23:35] No NAV data found for scheme 100089.
+[2025-01-20 10:23:54] Updated 5 records for scheme: HDFC Balanced Advantage Fund - Growth Plan
+[2025-01-20 10:24:03] Updated 5 records for scheme: HDFC Balanced Advantage Fund - IDCW Plan
+[2025-01-20 10:24:07] Updated 5 records for scheme: HDFC Income Fund - Quarterly IDCW Option
+[2025-01-20 10:24:11] Updated 5 records for scheme: HDFC Income Fund - Growth Option
+[2025-01-20 10:24:21] Updated 5 records for scheme: quant ELSS Tax Saver Fund - IDCW Option - Regular Plan
+[2025-01-20 10:24:26] Updated 5 records for scheme: quant ELSS Tax Saver Fund - Growth Option - Regular Plan
+[2025-01-20 10:24:43] Updated 5 records for scheme: quant Small Cap Fund - IDCW Option - Regular Plan
+[2025-01-20 10:24:53] Updated 5 records for scheme: quant Small Cap Fund - Growth - Regular Plan
+[2025-01-20 10:24:58] Updated 5 records for scheme: JM Large Cap Fund (Regular) - IDCW 
