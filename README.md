@@ -4,22 +4,22 @@ This repository contains Python scripts organized into various subfolders. This 
 
 ## Table of Contents
 
-- [## `create_documentation.py`](###-`create_documentation.py`)
-- [## `requirements.py`](###-`requirements.py`)
-- [## `1_update_master_Data.py`](###-`1_update_master_data.py`)
-- [## `2_nav_updater.py`](###-`2_nav_updater.py`)
-- [## `3_mutual_fund_delta_update.py`](###-`3_mutual_fund_delta_update.py`)
-- [## `10_portfolio-risk-analysis.py`](###-`10_portfolio-risk-analysis.py`)
-- [## `11_volatility-analysis-app.py`](###-`11_volatility-analysis-app.py`)
-- [## `13_portfolio-value-tracker.py`](###-`13_portfolio-value-tracker.py`)
-- [## `5_portfolio-upload.py`](###-`5_portfolio-upload.py`)
-- [## `6_portfolio-analysis.py`](###-`6_portfolio-analysis.py`)
-- [## `7_goal-mapping-tool.py`](###-`7_goal-mapping-tool.py`)
-- [## `8_portfolio-sync-tool.py`](###-`8_portfolio-sync-tool.py`)
-- [## `9_goal-planner.py`](###-`9_goal-planner.py`)
-- [## `12_mutual_fund_consistency.py`](###-`12_mutual_fund_consistency.py`)
-- [## `14_mutual-fund-category_analysis.py`](###-`14_mutual-fund-category_analysis.py`)
-- [## `4_single_fund_analysis.py`](###-`4_single_fund_analysis.py`)
+- [`create_documentation.py`](#-create-documentation-py-)
+- [`requirements.py`](#-requirements-py-)
+- [`1_update_master_Data.py`](#-1-update-master-data-py-)
+- [`2_nav_updater.py`](#-2-nav-updater-py-)
+- [`3_mutual_fund_delta_update.py`](#-3-mutual-fund-delta-update-py-)
+- [`10_portfolio-risk-analysis.py`](#-10-portfolio-risk-analysis-py-)
+- [`11_volatility-analysis-app.py`](#-11-volatility-analysis-app-py-)
+- [`13_portfolio-value-tracker.py`](#-13-portfolio-value-tracker-py-)
+- [`5_portfolio-upload.py`](#-5-portfolio-upload-py-)
+- [`6_portfolio-analysis.py`](#-6-portfolio-analysis-py-)
+- [`7_goal-mapping-tool.py`](#-7-goal-mapping-tool-py-)
+- [`8_portfolio-sync-tool.py`](#-8-portfolio-sync-tool-py-)
+- [`9_goal-planner.py`](#-9-goal-planner-py-)
+- [`12_mutual_fund_consistency.py`](#-12-mutual-fund-consistency-py-)
+- [`14_mutual-fund-category_analysis.py`](#-14-mutual-fund-category-analysis-py-)
+- [`4_single_fund_analysis.py`](#-4-single-fund-analysis-py-)
 
 # Documentation of Python Scripts in Folder
 
