@@ -35,3 +35,5 @@
 [2025-01-20 10:24:43] Updated 5 records for scheme: quant Small Cap Fund - IDCW Option - Regular Plan
 [2025-01-20 10:24:53] Updated 5 records for scheme: quant Small Cap Fund - Growth - Regular Plan
 [2025-01-20 10:24:58] Updated 5 records for scheme: JM Large Cap Fund (Regular) - IDCW 
+[2025-01-20 10:25:04] Updated 5 records for scheme: JM Large Cap Fund (Regular) - Growth Option
+[2025-01-20 10:25:22] Updated 5 records for scheme: JM Aggressive Hybrid Fund (Regular) - IDCW
