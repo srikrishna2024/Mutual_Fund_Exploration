@@ -4,22 +4,22 @@ This repository contains Python scripts organized into various subfolders. This 
 
 ## Table of Contents
 
-- [## `create_documentation.py`](###-`create_documentation.py`)
-- [## `requirements.py`](###-`requirements.py`)
-- [## `1_update_master_Data.py`](###-`1_update_master_data.py`)
-- [## `2_nav_updater.py`](###-`2_nav_updater.py`)
-- [## `3_mutual_fund_delta_update.py`](###-`3_mutual_fund_delta_update.py`)
-- [## `10_portfolio-risk-analysis.py`](###-`10_portfolio-risk-analysis.py`)
-- [## `11_volatility-analysis-app.py`](###-`11_volatility-analysis-app.py`)
-- [## `13_portfolio-value-tracker.py`](###-`13_portfolio-value-tracker.py`)
-- [## `5_portfolio-upload.py`](###-`5_portfolio-upload.py`)
-- [## `6_portfolio-analysis.py`](###-`6_portfolio-analysis.py`)
-- [## `7_goal-mapping-tool.py`](###-`7_goal-mapping-tool.py`)
-- [## `8_portfolio-sync-tool.py`](###-`8_portfolio-sync-tool.py`)
-- [## `9_goal-planner.py`](###-`9_goal-planner.py`)
-- [## `12_mutual_fund_consistency.py`](###-`12_mutual_fund_consistency.py`)
-- [## `14_mutual-fund-category_analysis.py`](###-`14_mutual-fund-category_analysis.py`)
-- [## `4_single_fund_analysis.py`](###-`4_single_fund_analysis.py`)
+- [`create_documentation.py`](#createdocumentationpy)
+- [`requirements.py`](#requirementspy)
+- [`1_update_master_Data.py`](#1updatemasterdatapy)
+- [`2_nav_updater.py`](#2navupdaterpy)
+- [`3_mutual_fund_delta_update.py`](#3mutualfunddeltaupdatepy)
+- [`10_portfolio-risk-analysis.py`](#10portfolio-risk-analysispy)
+- [`11_volatility-analysis-app.py`](#11volatility-analysis-apppy)
+- [`13_portfolio-value-tracker.py`](#13portfolio-value-trackerpy)
+- [`5_portfolio-upload.py`](#5portfolio-uploadpy)
+- [`6_portfolio-analysis.py`](#6portfolio-analysispy)
+- [`7_goal-mapping-tool.py`](#7goal-mapping-toolpy)
+- [`8_portfolio-sync-tool.py`](#8portfolio-sync-toolpy)
+- [`9_goal-planner.py`](#9goal-plannerpy)
+- [`12_mutual_fund_consistency.py`](#12mutualfundconsistencypy)
+- [`14_mutual-fund-category_analysis.py`](#14mutual-fund-categoryanalysispy)
+- [`4_single_fund_analysis.py`](#4singlefundanalysispy)
 
 # Documentation of Python Scripts in Folder
 
