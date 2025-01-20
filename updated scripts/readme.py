@@ -1,5 +1,18 @@
 import os
-import shutil
+import re
+
+def convert_to_github_anchor_link(section_title):
+    """
+    Converts a section title to a GitHub-style anchor link.
+    - Converts to lowercase
+    - Replaces spaces with hyphens
+    - Removes special characters (except hyphens)
+    """
+    # Convert to lowercase, replace spaces with hyphens, and remove non-alphanumeric characters
+    section_title = section_title.strip().lower()
+    section_title = re.sub(r'[^a-z0-9\s-]', '', section_title)  # remove special characters except spaces and hyphens
+    section_title = re.sub(r'\s+', '-', section_title)  # replace spaces with hyphens
+    return section_title
 
 def convert_documentation_to_readme(doc_file="documentation.md", readme_file="README.md"):
     """Converts the documentation.md file into a README.md file."""
@@ -25,14 +38,13 @@ This repository contains Python scripts organized into various subfolders. This 
     toc_section = ""
     section_found = False
     for line in lines:
-        if line.startswith("## "):
-            if section_found:
-                toc_section += f"\n"
-            toc_section += f"- [{line.strip()}](#{line.strip().lower().replace(' ', '-')})"
-            section_found = True
+        if line.startswith("## "):  # Section headings like "## Subfolder 1"
+            section_title = line.strip().lstrip("## ").strip()
+            anchor_link = convert_to_github_anchor_link(section_title)
+            toc_section += f"- [{section_title}](#{anchor_link})\n"
 
     # Add the Table of Contents to the README
-    readme_content += toc_section + "\n\n"
+    readme_content += toc_section + "\n"
 
     # Add the documentation content to the README after the table of contents
     readme_content += documentation_content

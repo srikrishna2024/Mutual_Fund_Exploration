@@ -4,22 +4,22 @@ This repository contains Python scripts organized into various subfolders. This 
 
 ## Table of Contents
 
-- [## `create_documentation.py`](###-`create_documentation.py`)
-- [## `requirements.py`](###-`requirements.py`)
-- [## `1_update_master_Data.py`](###-`1_update_master_data.py`)
-- [## `2_nav_updater.py`](###-`2_nav_updater.py`)
-- [## `3_mutual_fund_delta_update.py`](###-`3_mutual_fund_delta_update.py`)
-- [## `10_portfolio-risk-analysis.py`](###-`10_portfolio-risk-analysis.py`)
-- [## `11_volatility-analysis-app.py`](###-`11_volatility-analysis-app.py`)
-- [## `13_portfolio-value-tracker.py`](###-`13_portfolio-value-tracker.py`)
-- [## `5_portfolio-upload.py`](###-`5_portfolio-upload.py`)
-- [## `6_portfolio-analysis.py`](###-`6_portfolio-analysis.py`)
-- [## `7_goal-mapping-tool.py`](###-`7_goal-mapping-tool.py`)
-- [## `8_portfolio-sync-tool.py`](###-`8_portfolio-sync-tool.py`)
-- [## `9_goal-planner.py`](###-`9_goal-planner.py`)
-- [## `12_mutual_fund_consistency.py`](###-`12_mutual_fund_consistency.py`)
-- [## `14_mutual-fund-category_analysis.py`](###-`14_mutual-fund-category_analysis.py`)
-- [## `4_single_fund_analysis.py`](###-`4_single_fund_analysis.py`)
+- [`create_documentation.py`](#createdocumentationpy)
+- [`requirements.py`](#requirementspy)
+- [`1_update_master_Data.py`](#1updatemasterdatapy)
+- [`2_nav_updater.py`](#2navupdaterpy)
+- [`3_mutual_fund_delta_update.py`](#3mutualfunddeltaupdatepy)
+- [`10_portfolio-risk-analysis.py`](#10portfolio-risk-analysispy)
+- [`11_volatility-analysis-app.py`](#11volatility-analysis-apppy)
+- [`13_portfolio-value-tracker.py`](#13portfolio-value-trackerpy)
+- [`5_portfolio-upload.py`](#5portfolio-uploadpy)
+- [`6_portfolio-analysis.py`](#6portfolio-analysispy)
+- [`7_goal-mapping-tool.py`](#7goal-mapping-toolpy)
+- [`8_portfolio-sync-tool.py`](#8portfolio-sync-toolpy)
+- [`9_goal-planner.py`](#9goal-plannerpy)
+- [`12_mutual_fund_consistency.py`](#12mutualfundconsistencypy)
+- [`14_mutual-fund-category_analysis.py`](#14mutual-fund-categoryanalysispy)
+- [`4_single_fund_analysis.py`](#4singlefundanalysispy)
 
 # Documentation of Python Scripts in Folder
 
@@ -27,7 +27,7 @@ This repository contains Python scripts organized into various subfolders. This 
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\create_documentation.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\create_documentation.py
 ```
 - **Functions**:
   - `def get_functions_and_classes()`
@@ -45,7 +45,7 @@ python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\create_doc
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\requirements.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\requirements.py
 ```
 - **Functions**:
   - `def get_imports_from_file()`
@@ -65,7 +65,7 @@ python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\requiremen
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\1. MF Data Update\1_update_master_Data.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\1. MF Data Update\1_update_master_Data.py
 ```
 - **Functions**:
   - `def upload_csv_to_postgresql()`
@@ -92,7 +92,7 @@ Raises:
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\1. MF Data Update\2_nav_updater.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\1. MF Data Update\2_nav_updater.py
 ```
 - **Functions**:
   - `def parse_date()`
@@ -137,7 +137,7 @@ Raises:
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\1. MF Data Update\3_mutual_fund_delta_update.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\1. MF Data Update\3_mutual_fund_delta_update.py
 ```
 - **Functions**:
   - `def write_log()`
@@ -175,7 +175,7 @@ Note:
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\10_portfolio-risk-analysis.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\10_portfolio-risk-analysis.py
 ```
 - **Functions**:
   - `def format_indian_number()`
@@ -231,7 +231,7 @@ Returns:
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\11_volatility-analysis-app.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\11_volatility-analysis-app.py
 ```
 - **Functions**:
   - `def connect_to_db()`
@@ -268,7 +268,7 @@ Raises:
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\13_portfolio-value-tracker.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\13_portfolio-value-tracker.py
 ```
 - **Functions**:
   - `def connect_to_db()`
@@ -320,7 +320,7 @@ Raises:
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\5_portfolio-upload.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\5_portfolio-upload.py
 ```
 - **Functions**:
   - `def connect_to_db()`
@@ -356,7 +356,7 @@ Raises:
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\6_portfolio-analysis.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\6_portfolio-analysis.py
 ```
 - **Functions**:
   - `def connect_to_db()`
@@ -395,7 +395,7 @@ tuple: A tuple containing:
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\7_goal-mapping-tool.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\7_goal-mapping-tool.py
 ```
 - **Functions**:
   - `def format_indian_currency()`
@@ -442,7 +442,7 @@ Raises:
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\8_portfolio-sync-tool.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\8_portfolio-sync-tool.py
 ```
 - **Functions**:
   - `def connect_to_db()`
@@ -493,7 +493,7 @@ Streamlit components used:
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\9_goal-planner.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\2. Portfolio Analysis\9_goal-planner.py
 ```
 - **Functions**:
   - `def connect_to_db()`
@@ -542,7 +542,7 @@ Returns:
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\3. MF Analysis\12_mutual_fund_consistency.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\3. MF Analysis\12_mutual_fund_consistency.py
 ```
 - **Functions**:
   - None
@@ -553,7 +553,7 @@ python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\3. MF Anal
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\3. MF Analysis\14_mutual-fund-category_analysis.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\3. MF Analysis\14_mutual-fund-category_analysis.py
 ```
 - **Functions**:
   - `def connect_to_db()`
@@ -593,7 +593,7 @@ Tabs:
 ### How to run this script:
 Run the script using the following command:
 ```bash
-python c:\Users\[user]\Downloads\Mutual_Fund_PostGRES\updated scripts\3. MF Analysis\4_single_fund_analysis.py
+python c:\Users\skchaitanya\Downloads\Mutual_Fund_PostGRES\updated scripts\3. MF Analysis\4_single_fund_analysis.py
 ```
 - **Functions**:
   - `def connect_to_db()`
