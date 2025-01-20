@@ -1,4 +1,4 @@
-# Project Documentation
+# Mutual Fund Exploration
 
 This repository contains Python scripts organized into various subfolders. This document provides a summary of the scripts, including descriptions of their functions, classes, and usage instructions based on the generated `documentation.md` file.
 
