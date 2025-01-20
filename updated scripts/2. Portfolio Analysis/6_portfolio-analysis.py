@@ -87,6 +87,18 @@ def calculate_portfolio_weights(df, latest_nav):
     return df
 
 def calculate_xirr(df, latest_nav):
+    """
+    Calculate XIRR (Extended Internal Rate of Return) for a portfolio and individual schemes.
+
+    Parameters:
+    df (pd.DataFrame): DataFrame containing transaction details with columns 'scheme_name', 'date', 'units', 'cashflow', and 'code'.
+    latest_nav (pd.DataFrame): DataFrame containing the latest NAV values with columns 'code' and 'nav_value'.
+
+    Returns:
+    tuple: A tuple containing:
+        - xirr_results (dict): A dictionary with scheme names as keys and their respective XIRR values as values. The key 'Portfolio' contains the overall portfolio XIRR.
+        - portfolio_growth (pd.DataFrame): A DataFrame with columns 'date' and 'value' representing the portfolio value growth over time.
+    """
     """Calculate XIRR for portfolio and individual schemes"""
     schemes = df['scheme_name'].unique()
     xirr_results = {}

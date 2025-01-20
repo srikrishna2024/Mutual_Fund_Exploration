@@ -107,6 +107,28 @@ def calculate_consistency_score(rolling_returns):
     return quartiles.mean()
 
 def main():
+    Main function to run the Mutual Fund Analysis Streamlit application.
+    This function sets up the Streamlit page configuration, creates tabs for different analyses,
+    and handles user interactions for analyzing mutual fund categories and specific funds.
+    Tabs:
+    - Category Risk Metrics: Allows users to select a scheme category and filter periods to analyze
+      risk metrics for all funds in the selected category. Displays combined metrics and insights,
+      and identifies the top and bottom consistent funds based on Upside and Downside Ratios.
+    - Fund Analysis: Allows users to select a scheme category and a specific fund to analyze.
+      Displays rolling returns and risk metrics for the selected fund.
+    User Interactions:
+    - Select scheme category and filter periods for category risk metrics analysis.
+    - Select scheme category and specific fund for individual fund analysis.
+    - Analyze buttons to trigger data fetching and analysis.
+    Data Fetching and Analysis:
+    - Fetches categories and schemes by category.
+    - Fetches NAV data for selected schemes.
+    - Calculates rolling returns and risk metrics for selected periods.
+    - Displays results in tables, dataframes, and plots.
+    Note:
+    - Requires external functions: get_categories, get_schemes_by_category, get_nav_data,
+      calculate_risk_metrics, calculate_rolling_returns.
+    - Uses Streamlit for UI components and Plotly for plotting.
     st.set_page_config(page_title='Mutual Fund Analysis', layout='wide')
     st.title('Mutual Fund Analysis')
 

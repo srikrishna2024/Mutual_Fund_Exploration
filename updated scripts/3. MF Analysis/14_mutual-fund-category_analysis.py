@@ -79,6 +79,25 @@ def calculate_category_average(summary_data, period):
         return "N/A"
 
 def main():
+    """
+    Main function to run the Streamlit app for Category-wide Mutual Fund Analysis.
+    This function sets up the Streamlit page configuration, displays the title, and creates a sidebar for user inputs.
+    It allows users to select a mutual fund category and analyze the rolling returns and risk for funds within that category.
+    The analysis includes:
+    - Returns Summary
+    - Risk Summary
+    - Individual Fund Analysis
+    - Detailed Statistics
+    The function fetches and processes NAV data for the selected category and displays the results in various tabs.
+    Sidebar Inputs:
+    - Mutual Fund Category: Dropdown to select the mutual fund category.
+    - Analyze Category: Button to trigger the analysis.
+    Tabs:
+    - Returns Summary: Displays the returns summary for the selected category.
+    - Risk Summary: Displays the risk summary (standard deviation) for the selected category.
+    - Individual Fund Analysis: Allows detailed analysis of individual funds within the selected category.
+    - Detailed Statistics: Provides detailed statistics for all funds in the selected category, with an option to download the data as a CSV file.
+    """
     st.set_page_config(page_title='Category-wide Mutual Fund Analysis', layout='wide')
     st.title('Mutual Fund Category Analysis - Rolling Returns')
 

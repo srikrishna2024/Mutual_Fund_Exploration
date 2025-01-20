@@ -151,6 +151,34 @@ def get_total_by_goal(sync_summary):
     return goal_totals
 
 def main():
+    """
+    Main function to run the Portfolio Sync Tool application.
+    This function sets up the Streamlit page configuration, displays the current sync status,
+    and provides functionality to sync the portfolio with the latest transactions.
+    The main steps include:
+    - Setting the page title and layout.
+    - Displaying the current sync status in a formatted table.
+    - Showing goal-wise totals.
+    - Providing a sync button to update the portfolio with the latest transactions.
+    - Displaying appropriate messages based on the sync status and results.
+    Functions called:
+    - update_schema_for_sync(): Ensures the database schema is up to date.
+    - get_sync_summary(): Retrieves the current sync status summary.
+    - format_indian_currency(value): Formats currency values in Indian format.
+    - get_total_by_goal(sync_summary): Calculates total values by goal.
+    - get_latest_transactions(last_sync_date): Retrieves new transactions since the last sync date.
+    - update_goal_values(): Updates the goal values with the latest NAVs.
+    Streamlit components used:
+    - st.set_page_config(): Sets the page configuration.
+    - st.title(): Displays the main title.
+    - st.subheader(): Displays subheaders.
+    - st.dataframe(): Displays dataframes.
+    - st.info(): Displays informational messages.
+    - st.button(): Creates a button.
+    - st.success(): Displays success messages.
+    - st.warning(): Displays warning messages.
+    - st.rerun(): Reruns the Streamlit script.
+    """
     st.set_page_config(page_title="Portfolio Sync Tool", layout="wide")
     st.title("Portfolio Sync Tool")
 

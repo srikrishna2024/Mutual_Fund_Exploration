@@ -113,6 +113,24 @@ def analyze_risk_factors(volatility_metrics):
     return fund_analysis
 
 def main():
+    """
+    Main function to run the Portfolio Volatility Analysis application.
+    This function sets up the Streamlit page configuration, loads portfolio data,
+    calculates volatility metrics, and displays various analyses and visualizations
+    related to portfolio risk and fund performance.
+    The function performs the following steps:
+    1. Sets the page title and layout.
+    2. Loads portfolio data and checks for its availability.
+    3. Loads historical NAV data for the portfolio funds.
+    4. Calculates volatility metrics, correlation matrix, and portfolio volatility.
+    5. Displays portfolio risk overview including annualized volatility and highest risk contribution.
+    6. Displays individual fund analysis with metrics and primary risk factors.
+    7. Visualizes risk contribution analysis using bar charts.
+    8. Displays fund correlation analysis using a heatmap.
+    9. Handles exceptions and displays error messages if any issues occur.
+    Raises:
+        Exception: If there is an error in loading data, calculating metrics, or any other step.
+    """
     st.set_page_config(page_title="Portfolio Volatility Analysis", layout="wide")
     st.title("Fund Volatility and Risk Analysis Dashboard")
 

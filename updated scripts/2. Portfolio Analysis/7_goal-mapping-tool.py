@@ -164,6 +164,28 @@ def get_existing_goals():
         return pd.read_sql(query, conn)
 
 def main():
+    """
+    Main function to run the Investment Goal Mapping Tool application.
+    This function sets up the Streamlit page configuration, displays the title,
+    and initializes the application by checking and updating the database schema.
+    It then retrieves the current portfolio data and creates two tabs for mutual
+    fund mapping and manual investment entry. Users can map mutual funds to goals
+    or add manual investments through forms. The function also displays existing
+    goal mappings and provides a summary of the total portfolio value.
+    Tabs:
+        - Mutual Fund Mapping: Allows users to map mutual funds to specific goals.
+        - Manual Investment Entry: Allows users to add manual investments with details.
+    Forms:
+        - goal_mapping_form: Form to map mutual funds to goals.
+        - manual_investment_form: Form to add manual investments.
+    Displays:
+        - Goal-wise summary of current goal mappings.
+        - Total portfolio value.
+        - Detailed mappings of existing goals.
+    Raises:
+        Streamlit warnings and errors for various conditions such as empty portfolio data,
+        failed goal mappings, and duplicate fund mappings.
+    """
     st.set_page_config(page_title="Goal Mapping Tool", layout="wide")
     st.title("Investment Goal Mapping Tool")
 

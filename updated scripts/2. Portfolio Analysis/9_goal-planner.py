@@ -172,6 +172,30 @@ def create_investment_projection_plot(current_cost, inflation_rate, years,
     return fig
 
 def main():
+    """
+    Main function to run the Investment Goal Planner application.
+    This function sets up the Streamlit page configuration, retrieves the list of goals,
+    and displays a form for the user to input details about their investment goals.
+    Based on the user's input, it calculates the required yearly investments in equity
+    and debt to achieve the goal and displays the results along with an investment projection plot.
+    The function handles both retirement and non-retirement goals and adjusts the input fields
+    and calculations accordingly.
+    The following steps are performed:
+    1. Set up the Streamlit page configuration and title.
+    2. Retrieve the list of goals from the database.
+    3. Display a warning if no goals are found.
+    4. Create an input form for the user to select a goal and input relevant details.
+    5. Retrieve current investments for the selected goal.
+    6. Calculate the future value of the goal or retirement corpus needed.
+    7. Calculate the required yearly investments in equity and debt.
+    8. Display the investment summary and projection plot.
+    9. Display detailed goal planning information in a table.
+    Note: This function relies on several helper functions such as `get_goals`, `get_current_investments`,
+    `calculate_retirement_corpus`, `calculate_future_value`, `calculate_required_investment`,
+    `format_indian_currency`, and `create_investment_projection_plot`.
+    Returns:
+        None
+    """
     st.set_page_config(page_title="Goal Planner", layout="wide")
     st.title("Investment Goal Planner")
     

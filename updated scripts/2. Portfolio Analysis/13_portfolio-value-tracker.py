@@ -282,6 +282,26 @@ def calculate_time_based_returns(portfolio_value_df, months):
         st.error(f"Error calculating {months}-month returns: {str(e)}")
         return None
 def main():
+    """
+    Main function to run the Portfolio Value Tracker Streamlit application.
+    This function sets up the Streamlit page configuration, retrieves available funds,
+    allows the user to select funds to track, fetches NAV and transaction data for the
+    selected funds, calculates portfolio values, and displays various metrics and plots.
+    The function performs the following steps:
+    1. Sets the page title and layout.
+    2. Retrieves available funds from the database.
+    3. Allows the user to select funds to track using a multi-select widget.
+    4. Fetches NAV and transaction data for the selected funds.
+    5. Calculates portfolio values over time.
+    6. Plots the portfolio value progression over time.
+    7. Calculates and displays time-based returns (1-month, 3-month, 6-month).
+    8. Displays metrics for each selected fund, including current value and XIRR.
+    9. Displays total portfolio metrics, including total value, portfolio XIRR, and gains/losses.
+    10. Provides an expandable section to view raw data.
+    If any errors occur during the execution, they are caught and displayed as error messages.
+    Raises:
+        Exception: If any error occurs during the execution of the function.
+    """
     st.set_page_config(page_title="Portfolio Value Tracker", layout="wide")
     st.title("Portfolio Value Tracker")
     

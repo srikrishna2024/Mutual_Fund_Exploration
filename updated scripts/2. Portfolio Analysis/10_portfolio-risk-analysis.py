@@ -248,6 +248,23 @@ def interpret_portfolio_metrics(risk_metrics, weights_df, xirr_results):
     return insights
 
 def main():
+    """
+    Main function to run the Portfolio Risk Analysis Dashboard.
+    This function sets up the Streamlit page configuration, retrieves and processes portfolio data,
+    calculates various risk and return metrics, and displays the results in an interactive dashboard.
+    Sections displayed in the dashboard:
+    1. Portfolio Composition
+    2. Fund-wise Analysis
+    3. Fund Correlations
+    4. Portfolio Risk Metrics
+    5. Portfolio Insights
+    6. Additional Portfolio Statistics
+    The function handles various scenarios such as missing data and provides recommendations for portfolio rebalancing based on correlation metrics.
+    Raises:
+        Exception: If any error occurs during data retrieval or processing, an error message is displayed.
+    Returns:
+        None
+    """
     st.set_page_config(page_title="Portfolio Risk Analysis", layout="wide")
     st.title("Portfolio Risk Analysis Dashboard")
 

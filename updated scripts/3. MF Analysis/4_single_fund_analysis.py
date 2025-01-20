@@ -263,6 +263,26 @@ def single_fund_analysis():
             st.error(f"Error details: {type(e).__name__}")
 
 def compare_funds():
+    """
+    Displays a Streamlit interface for comparing mutual funds based on selected criteria.
+    The function allows users to:
+    - Select a scheme category.
+    - Select up to 3 schemes within the chosen category for comparison.
+    - Choose an analysis period (e.g., YTD, 1 Year, 2 Years, etc.).
+    - Compare the selected schemes based on rolling returns and risk metrics.
+    The function fetches and processes the necessary data, and displays:
+    - A plot of rolling returns for the selected schemes.
+    - A table comparing risk metrics for the selected schemes.
+    Raises:
+        Exception: If an error occurs during data fetching or processing.
+    Note:
+        This function relies on several helper functions:
+        - get_categories(): Fetches available scheme categories.
+        - get_schemes_by_category(category): Fetches schemes for a given category.
+        - get_nav_data(scheme_code, start_date): Fetches NAV data for a scheme.
+        - calculate_rolling_returns(nav_data): Calculates rolling returns from NAV data.
+        - calculate_risk_metrics(nav_data): Calculates risk metrics from NAV data.
+    """
     st.subheader('Fund Comparison')
     
     col1, col2 = st.columns(2)
