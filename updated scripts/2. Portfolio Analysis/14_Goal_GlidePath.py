@@ -73,24 +73,71 @@ def calculate_growth(initial, rate, years, annual_contribution=0):
         values.append(new_value)
     return values
 
-def calculate_total_growth(initial_equity, initial_debt, equity_rate, debt_rate, years, annual_investment, equity_allocation, debt_allocation, investment_increase=0):
-    """Calculate cumulative growth including initial investments and yearly contributions with annual increase."""
+def calculate_total_growth_glidepath(
+    initial_equity, initial_debt, equity_rate, debt_rate, years, annual_investment,
+    starting_equity_allocation, ending_equity_allocation, allocation_change_start_year, investment_increase=0
+):
+    """
+    Calculate yearly growth with a glide path for changing equity-debt allocation
+    and sequence of returns risk.
+
+    Returns:
+    - A DataFrame with separate equity and debt growth lines.
+    - Final total values.
+    """
+    # Initialize values
+    equity_values = [initial_equity]
+    debt_values = [initial_debt]
     total_values = [initial_equity + initial_debt]
     current_annual_investment = annual_investment
-    
+
+    # Calculate yearly allocation adjustments
+    allocation_change_years = max(1, allocation_change_start_year)
+    years_to_adjust = years - allocation_change_years + 1
+    equity_allocations = [
+        max(
+            starting_equity_allocation - ((starting_equity_allocation - ending_equity_allocation) / years_to_adjust) * max(0, year - allocation_change_years),
+            ending_equity_allocation
+        )
+        for year in range(years)
+    ]
+    debt_allocations = [100 - equity_allocation for equity_allocation in equity_allocations]
+
+    # Yearly calculations
     for year in range(1, years + 1):
-        previous_total = total_values[-1]
+        previous_equity = equity_values[-1]
+        previous_debt = debt_values[-1]
+
+        # Current allocation percentages
+        equity_allocation = equity_allocations[year - 1]
+        debt_allocation = debt_allocations[year - 1]
+
+        # Contributions based on allocation
         yearly_equity_contribution = current_annual_investment * (equity_allocation / 100)
         yearly_debt_contribution = current_annual_investment * (debt_allocation / 100)
-        
-        equity_growth = (previous_total * (equity_allocation / 100) + yearly_equity_contribution) * (1 + equity_rate)
-        debt_growth = (previous_total * (debt_allocation / 100) + yearly_debt_contribution) * (1 + debt_rate)
-        
+
+        # Growth calculations
+        equity_growth = (previous_equity + yearly_equity_contribution) * (1 + equity_rate)
+        debt_growth = (previous_debt + yearly_debt_contribution) * (1 + debt_rate)
+
+        # Append new values
+        equity_values.append(equity_growth)
+        debt_values.append(debt_growth)
         total_values.append(equity_growth + debt_growth)
-        # Increase the investment for next year
+
+        # Increase annual investment
         current_annual_investment *= (1 + investment_increase)
-    
-    return total_values, current_annual_investment
+
+    # Create DataFrame for plotting
+    growth_df = pd.DataFrame({
+        'Year': list(range(1, years + 2)),
+        'Equity': equity_values,
+        'Debt': debt_values,
+        'Total': total_values
+    })
+
+    return growth_df, total_values[-1]
+
 
 def create_comparison_plot(years, expected_growth, conservative_growth, benchmark_growth):
     """Generate an interactive plot comparing different growth paths."""
@@ -177,17 +224,92 @@ def create_simulation_plot(years, initial, equity_rate, debt_rate, equity_split,
         )
     )
     return fig
-def calculate_retirement_needs(current_expenses, inflation_rate, retirement_years, life_expectancy):
-    """Calculate total retirement corpus needed based on expenses and life expectancy."""
-    years_in_retirement = life_expectancy - retirement_years
-    future_annual_expense = current_expenses * (1 + inflation_rate) ** retirement_years
-    total_corpus_needed = 0
-    
-    for year in range(years_in_retirement):
+def create_simulation_plot_with_glidepath(growth_df):
+    """
+    Create a simulation plot showing equity, debt, and total growth over the years.
+    """
+    fig = go.Figure()
+
+    # Add equity growth line
+    fig.add_trace(go.Scatter(
+        x=growth_df['Year'],
+        y=growth_df['Equity'],
+        mode='lines+markers',
+        name='Equity Growth',
+        hovertemplate="Year %{x}<br>₹%{y:,.2f}<extra></extra>"
+    ))
+
+    # Add debt growth line
+    fig.add_trace(go.Scatter(
+        x=growth_df['Year'],
+        y=growth_df['Debt'],
+        mode='lines+markers',
+        name='Debt Growth',
+        hovertemplate="Year %{x}<br>₹%{y:,.2f}<extra></extra>"
+    ))
+
+    # Add total growth line
+    fig.add_trace(go.Scatter(
+        x=growth_df['Year'],
+        y=growth_df['Total'],
+        mode='lines+markers',
+        name='Total Growth',
+        hovertemplate="Year %{x}<br>₹%{y:,.2f}<extra></extra>"
+    ))
+
+    # Configure plot layout
+    fig.update_layout(
+        title="Investment Growth with Glide Path",
+        xaxis_title="Year",
+        yaxis_title="Value (₹)",
+        legend_title="Growth Paths",
+        yaxis=dict(tickformat=",", separatethousands=True)
+    )
+
+    return fig
+
+def calculate_retirement_needs(current_expenses, inflation_rate, years_to_retire, life_expectancy):
+    """
+    Calculate detailed retirement corpus needs with year-by-year breakdown.
+    Returns both total corpus needed and yearly expenses dataframe.
+    """
+    retirement_age = 60  # Retirement starts at age 60
+    retirement_years = life_expectancy - retirement_age  # Years in retirement
+    future_annual_expense = current_expenses * (1 + inflation_rate) ** years_to_retire
+
+    # Create lists for year-by-year breakdown
+    years_list = []
+    age_list = []
+    expenses_list = []
+    cumulative_corpus_list = []
+
+    total_corpus_needed = 0  # Total retirement corpus
+    for year in range(retirement_years):
+        # Expense for each year during retirement
         expense_in_year = future_annual_expense * (1 + inflation_rate) ** year
-        total_corpus_needed += expense_in_year
-    
-    return total_corpus_needed
+        years_list.append(year + 1)
+        age_list.append(retirement_age + year)
+        expenses_list.append(expense_in_year)
+
+        # Calculate remaining corpus needed for future years
+        remaining_years = retirement_years - year
+        year_corpus = sum(
+            expense_in_year / ((1 + inflation_rate) ** future_year)
+            for future_year in range(remaining_years)
+        )
+        cumulative_corpus_list.append(year_corpus)
+        if year == 0:  # The total corpus needed at retirement age
+            total_corpus_needed = year_corpus
+
+    # Create DataFrame with the breakdown
+    breakdown_df = pd.DataFrame({
+        'Year': years_list,
+        'Age': age_list,
+        'Annual Expenses': expenses_list,
+        'Corpus Required': cumulative_corpus_list
+    })
+
+    return total_corpus_needed, breakdown_df
 
 def suggest_retirement_allocation(target_corpus, current_corpus, years_to_retire, equity_rate, debt_rate, annual_investment, investment_increase, risk_profile='Moderate'):
     """
@@ -231,192 +353,141 @@ def main():
     st.set_page_config(page_title="Are We On Track Tool", layout="wide")
     st.title("Are We On Track Tool")
 
+    # Retrieve goals from the database
     goals = get_goals()
     if not goals:
         st.warning("No goals found in the database.")
+        return
+
+    # Goal selection
+    selected_goal = st.selectbox("Select Goal", goals)
+    if not selected_goal:
+        return
+
+    equity, debt = get_goal_data(selected_goal)
+    st.write(f"Initial Equity: ₹{format_indian_number(equity)}, Initial Debt: ₹{format_indian_number(debt)}")
+
+    # Investment details
+    st.subheader("Investment Details")
+    col1, col2 = st.columns(2)
+    with col1:
+        annual_investment = st.number_input("Initial Yearly Investment (₹)", min_value=0, value=50000)
+    with col2:
+        investment_increase = st.number_input("Yearly Investment Increase (%)", min_value=0.0, max_value=50.0, value=5.0) / 100
+
+    years = st.slider("Years to Goal", min_value=1, max_value=30, value=10)
+
+    # Target Corpus for Non-Retirement Goals
+    target_corpus = None
+    if selected_goal.lower() != "retirement":
+        target_corpus = st.number_input("Target Corpus (₹)", min_value=0, value=1000000)
+
+    # Glide path allocation details
+    st.subheader("Glide Path Allocation Details")
+    if selected_goal.lower() == "retirement":
+        col1, col2 = st.columns(2)
+        with col1:
+            starting_equity_allocation = st.slider(
+                "Starting Equity Allocation (%)", min_value=50, max_value=100, value=60
+            )
+            ending_equity_allocation = st.slider(
+                "Ending Equity Allocation (%)", min_value=0, max_value=50, value=40
+            )
+        with col2:
+            years_before_retirement_to_start = st.slider(
+                "Years Before Retirement to Start Adjusting Allocation", min_value=1, max_value=years - 1, value=5
+            )
     else:
-        selected_goal = st.selectbox("Select Goal", goals)
-        if selected_goal:
-            equity, debt = get_goal_data(selected_goal)
-            st.write(f"Initial Equity: ₹{format_indian_number(equity)}, Initial Debt: ₹{format_indian_number(debt)}")
+        col1, col2 = st.columns(2)
+        with col1:
+            starting_equity_allocation = st.slider(
+                "Equity Allocation (%)", min_value=0, max_value=100, value=60
+            )
+        with col2:
+            ending_equity_allocation = 100 - starting_equity_allocation
+            st.write(f"Debt Allocation: {ending_equity_allocation}%")
 
-            # Common investment inputs for all goals
-            st.subheader("Investment Details")
-            col1, col2 = st.columns(2)
-            with col1:
-                annual_investment = st.number_input("Initial Yearly Investment (₹)", min_value=0, value=50000)
-            with col2:
-                investment_increase = st.number_input("Yearly Investment Increase (%)", min_value=0.0, max_value=50.0, value=5.0) / 100
+    # Return expectations
+    st.subheader("Return Expectations")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        equity_rate = st.number_input("Expected Equity Return (%)", min_value=0.0, value=12.0) / 100
+    with col2:
+        debt_rate = st.number_input("Expected Debt Return (%)", min_value=0.0, value=7.0) / 100
+    with col3:
+        benchmark_rate = st.number_input("Expected Benchmark Return (%)", min_value=0.0, value=12.0) / 100
 
-            # Show projected investments table for all goals
-            if investment_increase > 0:
-                with st.expander("View Projected Yearly Investments"):
-                    projected_investments = pd.DataFrame({
-                        'Year': range(1, 31),  # Show up to 30 years
-                        'Yearly Investment': [annual_investment * (1 + investment_increase) ** (year - 1) for year in range(1, 31)]
-                    })
-                    st.dataframe(
-                        projected_investments.style.format({'Yearly Investment': '₹{:,.0f}'}),
-                        height=200
-                    )
-                    total_investment = projected_investments['Yearly Investment'].sum()
-                    st.write(f"Total projected investment over 30 years: ₹{format_indian_number(total_investment)}")
+    # Calculate growth with glide path
+    allocation_change_start_year = years - years_before_retirement_to_start if selected_goal.lower() == "retirement" else years
+    growth_df, final_value = calculate_total_growth_glidepath(
+        equity, debt, equity_rate, debt_rate, years, annual_investment,
+        starting_equity_allocation, ending_equity_allocation,
+        allocation_change_start_year, investment_increase
+    )
 
-            if selected_goal.lower() == "retirement":
-                # Retirement specific inputs
-                st.subheader("Retirement Planning Details")
-                col1, col2, col3 = st.columns(3)
-                with col1:
-                    current_age = st.number_input("Current Age", min_value=20, max_value=70, value=30)
-                with col2:
-                    retirement_age = st.number_input("Retirement Age", min_value=current_age + 1, max_value=80, value=60)
-                with col3:
-                    life_expectancy = st.number_input("Life Expectancy", min_value=retirement_age + 1, max_value=100, value=80)
-                
-                current_expenses = st.number_input("Current Annual Expenses (₹)", min_value=0, value=500000)
-                years = retirement_age - current_age
-                
-                # Calculate retirement needs with escalating investments
-                inflation_rate = st.number_input("Expected Inflation Rate (%)", min_value=0.0, value=5.0) / 100
-                retirement_corpus_needed = calculate_retirement_needs(
-                    current_expenses,
-                    inflation_rate,
-                    years,
-                    life_expectancy
-                )
-                
-                st.write(f"Required Retirement Corpus: ₹{format_indian_number(retirement_corpus_needed)}")
-                
-                risk_profile = st.selectbox(
-                    "Select Your Risk Profile",
-                    ["Conservative", "Moderate", "Aggressive"]
-                )
-                
-                # Return rate inputs
-                equity_rate = st.number_input("Expected Equity Return (%)", min_value=0.0, value=12.0) / 100
-                debt_rate = st.number_input("Expected Debt Return (%)", min_value=0.0, value=7.0) / 100
-                
-                suggested_equity, suggested_debt, projected_value = suggest_retirement_allocation(
-                        retirement_corpus_needed,
-                        equity + debt,
-                        years,
-                        equity_rate,
-                        debt_rate,
-                        annual_investment,
-                        investment_increase,  # Add this parameter
-                        risk_profile
-                )
-                
-                # Display retirement insights
-                st.subheader("Retirement Planning Insights")
-                col1, col2 = st.columns(2)
-                with col1:
-                    st.write(f"Suggested Portfolio Split:")
-                    st.write(f"- Equity: {suggested_equity:.1f}%")
-                    st.write(f"- Debt: {suggested_debt:.1f}%")
-                with col2:
-                    shortfall = retirement_corpus_needed - projected_value
-                    if shortfall > 0:
-                        st.error(f"Projected Shortfall: ₹{format_indian_number(shortfall)}")
-                        additional_monthly = (shortfall * (1 / (1 + equity_rate) ** years)) / (12 * years)
-                        st.write(f"Suggested Additional Monthly Investment: ₹{format_indian_number(additional_monthly)}")
-                    else:
-                        st.success("You are on track for retirement!")
-                
-                simulation_plot = create_simulation_plot(
-                    years,
-                    equity + debt,
-                    equity_rate,
-                    debt_rate,
-                    suggested_equity,
-                    suggested_debt,
-                    annual_investment
-                )
-                st.plotly_chart(simulation_plot)
-                
-            else:
-                # Non-retirement goals
-                col1, col2 = st.columns(2)
-                with col1:
-                    current_cost = st.number_input("Current Cost of the Goal (₹)", min_value=0, value=1000000)
-                with col2:
-                    years = st.slider("Years to Goal", 1, 30, 10)
+    # Calculate benchmark growth
+    benchmark_values = [equity + debt]
+    current_investment = annual_investment
+    for year in range(1, years + 1):
+        new_value = benchmark_values[-1] * (1 + benchmark_rate) + current_investment
+        benchmark_values.append(new_value)
+        current_investment *= (1 + investment_increase)
 
-                st.subheader("Inflation Considerations")
-                inflation_rate = st.number_input("Expected Inflation Rate (%)", min_value=0.0, value=5.0) / 100
-                inflation_adjusted_target = current_cost * (1 + inflation_rate) ** years
-                st.write(f"Inflation-Adjusted Target Amount: ₹{format_indian_number(inflation_adjusted_target)}")
+    # Display the simulation plot
+    st.subheader("Simulation Plot")
+    simulation_plot = create_simulation_plot_with_glidepath(growth_df)
+    simulation_plot.add_trace(go.Scatter(
+        x=list(range(1, years + 2)),
+        y=benchmark_values,
+        mode='lines+markers',
+        name='Benchmark Growth',
+        hovertemplate="Year %{x}<br>₹%{y:,.2f}<extra></extra>"
+    ))
+    st.plotly_chart(simulation_plot)
 
-                if equity + debt >= inflation_adjusted_target:
-                    st.success("Your current investments already exceed the inflation-adjusted target amount. No further action is required.")
-                else:
-                    st.subheader("Asset Allocation")
-                    allocation = st.slider("Equity Allocation (%)", 0, 100, 60)
-                    equity_allocation = allocation
-                    debt_allocation = 100 - allocation
-                    st.write(f"Equity: {equity_allocation}%, Debt: {debt_allocation}%")
+    # Insights
+    st.subheader("Insights")
+    final_equity = growth_df['Equity'].iloc[-1]
+    final_debt = growth_df['Debt'].iloc[-1]
+    st.write(f"Final Equity: ₹{format_indian_number(final_equity)}")
+    st.write(f"Final Debt: ₹{format_indian_number(final_debt)}")
+    st.write(f"Total Final Value: ₹{format_indian_number(final_value)}")
 
-                    st.subheader("Return Expectations")
-                    col1, col2, col3 = st.columns(3)
-                    with col1:
-                        equity_rate = st.number_input("Expected Equity Return (%)", min_value=0.0, value=12.0) / 100
-                    with col2:
-                        debt_rate = st.number_input("Expected Debt Return (%)", min_value=0.0, value=7.0) / 100
-                    with col3:
-                        benchmark_rate = st.number_input("Expected Benchmark Return (%)", min_value=0.0, value=12.0) / 100
+    benchmark_final = benchmark_values[-1]
 
-                    # Calculate growth with investment increase
-                    total_growth, final_investment = calculate_total_growth(
-                        equity, debt, equity_rate, debt_rate, years, annual_investment,
-                        equity_allocation, debt_allocation, investment_increase
-                    )
-                    conservative_growth, _ = calculate_total_growth(
-                        equity, debt, equity_rate * 0.9, debt_rate * 0.9, years,
-                        annual_investment, equity_allocation, debt_allocation, investment_increase
-                    )
-                    
-                    # Calculate benchmark growth with increasing investments
-                    benchmark_values = [equity + debt]
-                    current_investment = annual_investment
-                    for year in range(1, years + 1):
-                        new_value = benchmark_values[-1] * (1 + benchmark_rate) + current_investment
-                        benchmark_values.append(new_value)
-                        current_investment *= (1 + investment_increase)
-                    benchmark_growth = benchmark_values
+    # On Track or Off Track Analysis
+    if selected_goal.lower() == "retirement":
+        if final_value >= benchmark_final:
+            st.success("You are on track to meet your goal!")
+        else:
+            st.error("You are off track. Consider adjusting your investments.")
+    else:
+        if equity + debt >= target_corpus:
+            st.success("You are already on track to meet your target corpus!")
+        elif final_value >= target_corpus:
+            st.success("You are on track to meet your target corpus!")
+        else:
+            st.error("You are off track. Consider increasing your investments or adjusting your allocation.")
 
-                    st.subheader("Insights")
-                    if conservative_growth[-1] >= benchmark_growth[-1]:
-                        st.success("You are on track to meet your goal!")
-                    else:
-                        st.error("You are off track. Consider adjusting your investments.")
-                        suggested_equity, suggested_debt, suggested_investment = suggest_allocation_adjustment(
-                            inflation_adjusted_target, equity + debt, equity_rate, debt_rate,
-                            years, annual_investment, investment_increase
-                        )
-                        st.write(f"Suggested Allocation: Equity {suggested_equity}%, Debt {suggested_debt}%")
-                        st.write(f"Suggested Initial Yearly Investment: ₹{format_indian_number(suggested_investment)}")
+    if selected_goal.lower() == "retirement":
+        st.subheader("Retirement Planning Insights")
+        current_age = st.number_input("Current Age", min_value=20, max_value=70, value=30)
+        retirement_age = st.number_input("Retirement Age", min_value=current_age + 1, max_value=80, value=60)
+        life_expectancy = st.number_input("Life Expectancy", min_value=retirement_age + 1, max_value=100, value=80)
+        current_expenses = st.number_input("Current Annual Expenses (₹)", min_value=0, value=500000)
+        inflation_rate = st.number_input("Expected Inflation Rate (%)", min_value=0.0, value=5.0) / 100
 
-                        required_return = ((inflation_adjusted_target / (equity + debt)) ** (1 / years)) - 1
-                        st.write(f"Required Return to Meet Goal: {required_return * 100:.2f}%")
+        years_to_retire = retirement_age - current_age
+        retirement_corpus_needed, retirement_breakdown = calculate_retirement_needs(
+            current_expenses, inflation_rate, years_to_retire, life_expectancy
+        )
 
-                        simulation_plot = create_simulation_plot(
-                            years, equity + debt, equity_rate, debt_rate,
-                            suggested_equity, suggested_debt, suggested_investment
-                        )
-                        st.plotly_chart(simulation_plot)
+        st.write(f"Total Retirement Corpus Required at Age {retirement_age}: ₹{format_indian_number(retirement_corpus_needed)}")
 
-                    st.subheader("Key Metrics")
-                    col1, col2, col3 = st.columns(3)
-                    with col1:
-                        st.metric("Total Growth Value", f"₹{format_indian_number(total_growth[-1])}")
-                    with col2:
-                        st.metric("Conservative Final Value", f"₹{format_indian_number(conservative_growth[-1])}")
-                    with col3:
-                        st.metric("Benchmark Final Value", f"₹{format_indian_number(benchmark_growth[-1])}")
-
-                    st.subheader("Investment Growth Comparison")
-                    comparison_plot = create_comparison_plot(years, total_growth, conservative_growth, benchmark_growth)
-                    st.plotly_chart(comparison_plot)
+        with st.expander("View Year-by-Year Retirement Breakdown"):
+            st.dataframe(retirement_breakdown.style.format(
+                {"Annual Expenses": "₹{:,.2f}", "Corpus Required": "₹{:,.2f}"}
+            ))
 
 if __name__ == "__main__":
     main()
